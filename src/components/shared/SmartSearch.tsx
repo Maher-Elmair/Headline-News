@@ -4,7 +4,7 @@ import { Link } from "react-router";
 import { motion, AnimatePresence } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useSearchNews, useTrendingNews } from "@/lib/queries";
+import { useSearchNews, useTrendingNews } from "@/lib/query";
 import type { Article } from "@/types";
 
 interface SmartSearchProps {

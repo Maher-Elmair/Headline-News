@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router';
-import { categories } from '@/lib/mock-data';
+import { categories } from "@/lib/constants";
 
 export function CategoriesBar() {
   const location = useLocation();

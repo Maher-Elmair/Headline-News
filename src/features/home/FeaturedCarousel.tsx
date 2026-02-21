@@ -4,8 +4,8 @@ import { motion, AnimatePresence } from "motion/react";
 import { ChevronLeft, ChevronRight, Clock, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import type { Article } from "@/lib/mock-data";
-import { formatDateFull } from "@/lib/mock-data";
+import type { Article } from "@/types";
+import { formatDateFull } from "@/lib/dateUtils";
 import { ImageWithFallback } from "@/components/shared/ImageWithFallback";
 import { FeaturedCarouselSkeleton } from "@/components/shared/LoadingState";
 
@@ -14,7 +14,10 @@ interface FeaturedCarouselProps {
   isLoading?: boolean;
 }
 
-export function FeaturedCarousel({ articles, isLoading = false }: FeaturedCarouselProps) {
+export function FeaturedCarousel({
+  articles,
+  isLoading = false,
+}: FeaturedCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
@@ -34,7 +37,7 @@ export function FeaturedCarousel({ articles, isLoading = false }: FeaturedCarous
         return nextIndex;
       });
     },
-    [displayArticles.length],
+    [displayArticles.length]
   );
 
   const goToSlide = (index: number) => {
@@ -52,17 +55,17 @@ export function FeaturedCarousel({ articles, isLoading = false }: FeaturedCarous
     }
   }, [isHovered, displayArticles.length, paginate]);
 
-  // Show skeleton while loading
+  // Show skeleton while data is loading
   if (isLoading) {
-    return <FeaturedCarouselSkeleton  />;
+    return <FeaturedCarouselSkeleton />;
   }
 
+  // Nothing to render if no articles are available
   if (displayArticles.length === 0) {
     return null;
   }
 
   const currentArticle = displayArticles[currentIndex];
-
 
   return (
     <div
@@ -76,8 +79,8 @@ export function FeaturedCarousel({ articles, isLoading = false }: FeaturedCarous
             key={currentIndex}
             custom={direction}
             variants={{
-              enter: (direction: number) => ({
-                x: direction > 0 ? 1000 : -1000,
+              enter: (dir: number) => ({
+                x: dir > 0 ? 1000 : -1000,
                 opacity: 0,
               }),
               center: {
@@ -85,9 +88,9 @@ export function FeaturedCarousel({ articles, isLoading = false }: FeaturedCarous
                 x: 0,
                 opacity: 1,
               },
-              exit: (direction: number) => ({
+              exit: (dir: number) => ({
                 zIndex: 0,
-                x: direction < 0 ? 1000 : -1000,
+                x: dir < 0 ? 1000 : -1000,
                 opacity: 0,
               }),
             }}
@@ -104,6 +107,7 @@ export function FeaturedCarousel({ articles, isLoading = false }: FeaturedCarous
               to={`/article/${currentArticle.slug}`}
               className="block h-full group"
             >
+              {/* Background Image */}
               <div className="absolute inset-0 overflow-hidden">
                 <motion.div
                   className="w-full h-full"
@@ -120,7 +124,9 @@ export function FeaturedCarousel({ articles, isLoading = false }: FeaturedCarous
                 <div className="absolute inset-0 bg-linear-to-r from-black/50 to-transparent" />
               </div>
 
-              <div className="relative h-full flex flex-col justify-end ml-10 p-6 sm:p-8 md:p-10 lg:p-16 max-w-5xl">
+              {/* Content Overlay */}
+              <div className="relative h-full flex flex-col justify-end ml-10 p-6 sm:p-8 md:p-10 lg:p-16 max-w-4xl">
+                {/* Category Badge */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -132,26 +138,29 @@ export function FeaturedCarousel({ articles, isLoading = false }: FeaturedCarous
                   </Badge>
                 </motion.div>
 
+                {/* Title - clamped to 2 lines max */}
                 <motion.h2
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
-                  className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-3 sm:mb-4 lg:mb-6 mr leading-tight line-clamp-2 group-hover:text-primary-foreground transition-colors"
+                  className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-3 sm:mb-4 lg:mb-6 leading-tight line-clamp-2 group-hover:text-primary-foreground transition-colors"
                   style={{ textShadow: "0 2px 20px rgba(0,0,0,0.5)" }}
                 >
                   {currentArticle.title}
                 </motion.h2>
 
+                {/* Excerpt - clamped to 3 lines with a narrower max-width for readability */}
                 <motion.p
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 }}
-                  className="hidden sm:block text-white/95 text-sm md:text-base lg:text-lg mb-4 sm:mb-6 line-clamp-2 max-w-3xl leading-relaxed"
+                  className="hidden sm:block text-white/95 text-sm md:text-base lg:text-lg mb-4 sm:mb-6 line-clamp-3 max-w-2xl leading-relaxed"
                   style={{ textShadow: "0 1px 10px rgba(0,0,0,0.5)" }}
                 >
                   {currentArticle.excerpt}
                 </motion.p>
 
+                {/* Meta Info */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -173,6 +182,7 @@ export function FeaturedCarousel({ articles, isLoading = false }: FeaturedCarous
                 </motion.div>
               </div>
 
+              {/* Slide Indicator Dots */}
               {displayArticles.length > 1 && (
                 <div className="absolute bottom-4 sm:bottom-6 md:bottom-8 right-4 sm:right-6 md:right-8 lg:right-16 flex items-center gap-2 sm:gap-2.5 z-10">
                   {displayArticles.map((_, index) => (
@@ -196,6 +206,7 @@ export function FeaturedCarousel({ articles, isLoading = false }: FeaturedCarous
           </motion.div>
         </AnimatePresence>
 
+        {/* Prev / Next Buttons */}
         {displayArticles.length > 1 && (
           <>
             <Button

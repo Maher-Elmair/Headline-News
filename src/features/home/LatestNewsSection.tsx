@@ -4,13 +4,17 @@ import { Newspaper, ArrowRight, Clock, User } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import type { Article } from "@/lib/mock-data";
-import { formatDate } from "@/lib/mock-data";
+// import type { Article } from "@/lib/mock-data";
+// import { formatDate } from "@/lib/mock-data";
+import type { Article } from "@/types";
+// import { formatDate } from "@/lib/dateUtils";
+
 import { ImageWithFallback } from "@/components/shared/ImageWithFallback";
 import {
   FeaturedArticleCardSkeleton,
   ArticleCardSkeleton,
 } from "@/components/shared/LoadingState";
+import { formatDate } from "@/lib/dateUtils";
 
 interface LatestNewsSectionProps {
   articles: Article[];

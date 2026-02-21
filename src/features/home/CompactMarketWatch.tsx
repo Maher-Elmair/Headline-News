@@ -10,7 +10,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import {
   useMarketData,
   DEFAULT_SYMBOLS,
-} from "@/lib/react-query/queriesAndMutation";
+} from "@/lib/query";
 import { MarketWatchLoadingSkeleton } from "@/components/shared/LoadingState";
 import { type MarketData } from "@/types";
 

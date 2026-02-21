@@ -6,9 +6,9 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { SmartSearch } from "./SmartSearch";
 import { NavigationDrawer } from ".//NavigationDrawer";
 import { LogoIcon } from "./LogoIcon";
-import { useTheme } from "@/lib/theme-context";
+import { useTheme } from "@/lib/theme";
 import { motion } from "motion/react";
-import { useUserCity } from "@/hooks/useUserCity";
+import { useUserCity } from "@/hooks";
 
 export function ModernHeader() {
   const { theme, toggleTheme } = useTheme();

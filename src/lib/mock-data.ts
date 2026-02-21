@@ -1,26 +1,7 @@
-// Mock data for the news platform
-
-export interface Article {
-  id: string;
-  title: string;
-  slug: string;
-  excerpt: string;
-  content: string;
-  imageUrl: string;
-  category: string;
-  author: {
-    name: string;
-    avatar: string;
-  };
-  publishedAt: string;
-  readingTime: number;
-  views: number;
-  isFeatured?: boolean;
-  isBreaking?: boolean;
-  tags: string[];
-}
-
-export const categories = [
+// Mock data for the news platform. Uses shared types.
+import type { Article } from "@/types";
+export type { Article };
+export const mockCategories = [
   "World",
   "Politics",
   "Business",

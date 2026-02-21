@@ -38,16 +38,12 @@ class GeolocationPermissionDeniedError extends Error {
 const fetchUserCity = async (signal?: AbortSignal): Promise<string | null> => {
   // Check localStorage cache first to avoid unnecessary API calls
   const cachedCity = localStorage.getItem("userCity");
-  if (cachedCity) {
-    console.info(`[Location] Using cached city: ${cachedCity}`);
-    return cachedCity;
-  }
+  if (cachedCity) return cachedCity;
 
   // Attempt precise geolocation directly without pre-checking the Permissions API.
   // The Permissions API is unreliable on http://localhost in Chrome.
   if (navigator.geolocation) {
     try {
-      console.info("[Location] Requesting precise location from user...");
       const position = await new Promise<GeolocationPosition>(
         (resolve, reject) => {
           navigator.geolocation.getCurrentPosition(resolve, reject, {
@@ -58,10 +54,6 @@ const fetchUserCity = async (signal?: AbortSignal): Promise<string | null> => {
       );
 
       const { latitude, longitude } = position.coords;
-      console.info(
-        `[Location] Coordinates obtained: ${latitude}, ${longitude}`,
-      );
-
       const response = await axios.get(
         "https://nominatim.openstreetmap.org/reverse",
         {
@@ -83,10 +75,8 @@ const fetchUserCity = async (signal?: AbortSignal): Promise<string | null> => {
 
       if (city) {
         localStorage.setItem("userCity", city);
-        console.info(`[Location] City determined via geolocation: ${city}`);
+        console.log(`Location: ${city}`);
         return city;
-      } else {
-        console.warn("[Location] Reverse geocoding returned no city name.");
       }
     } catch (error) {
       if (isCancel(error)) {
@@ -95,34 +85,25 @@ const fetchUserCity = async (signal?: AbortSignal): Promise<string | null> => {
 
       if (error instanceof GeolocationPositionError) {
         if (error.code === error.PERMISSION_DENIED) {
-          // User explicitly denied permission - clear any stale cache and return null.
-          // Do not fall back to IP as that would ignore the user's explicit choice.
-          localStorage.removeItem("userCity");
-          console.info(
-            "[Location] User denied geolocation permission. Returning null.",
-          );
-          return null;
-        } else if (error.code === error.TIMEOUT) {
-          console.info(
-            "[Location] Geolocation timeout. Falling back to IP location.",
-          );
-        } else {
-          console.info(
-            `[Location] Geolocation unavailable (code ${error.code}). Falling back to IP location.`,
-          );
+          const isLocalhost =
+            typeof window !== "undefined" &&
+            (window.location.hostname === "localhost" ||
+              window.location.hostname === "127.0.0.1" ||
+              window.location.protocol === "http:");
+          if (!isLocalhost) {
+            localStorage.removeItem("userCity");
+            console.warn("Location: User denied geolocation");
+            return null;
+          }
+          // On localhost, PERMISSION_DENIED is often a false positive - fall through to IP fallback
         }
-      } else {
-        console.warn("[Location] Reverse geocoding request failed:", error);
       }
     }
-  } else {
-    console.warn("[Location] Geolocation is not supported by this browser.");
   }
 
-  // IP-based fallback - only reached when geolocation failed for a technical reason,
+  // IP-based fallback
   // never when the user explicitly denied permission.
   try {
-    console.info("[Location] Attempting IP-based location...");
     const response = await axios.get<{ city?: string }>(
       "https://ipapi.co/json/",
       { signal },
@@ -130,20 +111,18 @@ const fetchUserCity = async (signal?: AbortSignal): Promise<string | null> => {
     const city = response.data.city;
     if (city) {
       localStorage.setItem("userCity", city);
-      console.info(`[Location] City determined via IP: ${city}`);
+      console.log(`Location: ${city}`);
       return city;
-    } else {
-      console.warn("[Location] IP location service returned no city.");
     }
   } catch (error) {
     if (!isCancel(error)) {
-      console.error("[Location] IP location fallback failed:", error);
+      console.error("Location: Failed to determine city", error);
     } else {
       throw error;
     }
   }
 
-  console.warn("[Location] Unable to determine user city.");
+  console.warn("Location: Unable to determine city");
   return null;
 };
 

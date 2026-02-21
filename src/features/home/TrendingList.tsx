@@ -4,7 +4,7 @@ import { Eye, Clock, Flame } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { TrendingListItemsSkeleton } from "@/components/shared/LoadingState";
-import type { Article } from "@/lib/mock-data";
+import type { Article } from "@/types";
 
 interface TrendingListProps {
   articles: Article[];

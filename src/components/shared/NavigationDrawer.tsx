@@ -6,7 +6,8 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { LogoIcon } from "./LogoIcon";
-import { categories } from "@/lib/mock-data";
+// import { categories } from "@/lib/mock-data";
+import { categories } from "@/lib/constants";
 
 /**
  * NavigationDrawer Component

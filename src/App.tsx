@@ -1,6 +1,6 @@
 import { RouterProvider } from "react-router";
-import { ThemeProvider } from "@/lib/theme-context";
-import { QueryProvider } from "@/lib/react-query/QueryProvider";
+import { ThemeProvider } from "@/lib/theme";
+import { QueryProvider } from "@/lib/query";
 import { router } from "@/routes";
 
 function App() {
