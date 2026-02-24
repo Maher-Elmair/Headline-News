@@ -2,7 +2,7 @@ import { useMemo, useEffect } from "react";
 import { motion } from "motion/react";
 import { FeaturedCarousel } from "@/features/home/FeaturedCarousel";
 import { LatestNewsSection } from "@/features/home/LatestNewsSection";
-import { TrendingList } from "@/features/home/TrendingList";
+import { TrendingList } from "@/components/shared/TrendingList";
 import { CompactMarketWatch } from "@/features/home/CompactMarketWatch";
 import { EliteCategorySection } from "@/features/home/EliteCategorySection";
 import { CategoryShowcase } from "@/features/home/CategoryShowcase";
@@ -38,16 +38,16 @@ function claimArticles(
 function HomePage() {
   const isPageLoading = usePageLoading(800);
 
-  const { data: featuredArticles = [], isLoading: featuredLoading } =
+  const { data: featuredArticles = [], isLoading: featuredLoading, isError: featuredError } =
     useFeaturedNews();
-  const { data: topArticles = [], isLoading: topLoading } = useTopNews();
-  const { data: trendingArticles = [], isLoading: trendingLoading } =
+  const { data: topArticles = [], isLoading: topLoading, isError: topError } = useTopNews();
+  const { data: trendingArticles = [], isLoading: trendingLoading, isError: trendingError } =
     useTrendingNews();
-  const { data: technologyArticles = [], isLoading: techLoading } =
+  const { data: technologyArticles = [], isLoading: techLoading, isError: techError } =
     useNewsByCategory("technology");
-  const { data: businessArticles = [], isLoading: businessLoading } =
+  const { data: businessArticles = [], isLoading: businessLoading, isError: businessError } =
     useNewsByCategory("business");
-  const { data: scienceArticles = [], isLoading: scienceLoading } =
+  const { data: scienceArticles = [], isLoading: scienceLoading, isError: scienceError } =
     useNewsByCategory("science");
 
   // ============================================================
@@ -107,7 +107,11 @@ function HomePage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <FeaturedCarousel articles={sections.carousel} />
+          <FeaturedCarousel
+            articles={sections.carousel}
+            isLoading={featuredLoading}
+            isError={featuredError}
+          />
         </motion.div>
       </section>
 
@@ -120,7 +124,11 @@ function HomePage() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
             >
-              <LatestNewsSection articles={sections.latest} />
+              <LatestNewsSection
+                articles={sections.latest}
+                isLoading={topLoading}
+                isError={topError}
+              />
             </motion.div>
           </div>
 
@@ -131,7 +139,11 @@ function HomePage() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
               >
-                <TrendingList articles={sections.trending} />
+                <TrendingList
+                  articles={sections.trending}
+                  isLoading={trendingLoading}
+                  isError={trendingError}
+                />
               </motion.div>
 
               <motion.div
@@ -156,6 +168,7 @@ function HomePage() {
           categorySlug="technology"
           articles={sections.technology}
           isLoading={techLoading}
+          isError={techError}
           sectionNumber={1}
         />
 
@@ -164,6 +177,7 @@ function HomePage() {
           categorySlug="business"
           articles={sections.business}
           isLoading={businessLoading}
+          isError={businessError}
           sectionNumber={2}
         />
 
@@ -172,6 +186,7 @@ function HomePage() {
           categorySlug="science"
           articles={sections.science}
           isLoading={scienceLoading}
+          isError={scienceError}
           sectionNumber={3}
         />
       </section>

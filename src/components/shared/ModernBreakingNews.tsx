@@ -5,16 +5,18 @@ import { Skeleton } from "@/components/ui/skeleton";
 import type { Article } from "@/types";
 
 interface ModernBreakingNewsProps {
-  // Pass the breaking article from the parent instead of fetching internally
   article?: Article | null;
   isLoading?: boolean;
+  isError?: boolean;
 }
 
 export function ModernBreakingNews({
   article,
   isLoading = false,
+  isError = false,
 }: ModernBreakingNewsProps) {
-  if (!isLoading && !article) return null;
+  const showSkeleton = isLoading || isError;
+  if (!showSkeleton && !article) return null;
 
   return (
     <div className="border-b border-border/40 bg-card">
@@ -42,7 +44,7 @@ export function ModernBreakingNews({
             <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all shrink-0" />
           </Link>
         ) : (
-          <div className="flex items-center gap-3 px-4 sm:px-6 lg:px-8 py-3">
+          <div className="flex items-center gap-3 px-4 sm:px-6 lg:px-8 py-3" aria-busy="true">
             <div className="flex items-center gap-2 shrink-0">
               <motion.div
                 animate={{ scale: [1, 1.1, 1] }}

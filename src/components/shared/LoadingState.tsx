@@ -1,9 +1,13 @@
+/**
+ * Shared loading skeletons. Used for both loading and error states
+ * to keep a stable layout when data fetch fails (TanStack Query isError).
+ */
 import { Skeleton } from "@/components/ui/skeleton";
 import { Card, CardContent } from "@/components/ui/card";
 
-// // ===================================================
-// //  Article Card Loading Skeletons
-// // ===================================================
+// ===================================================
+//  Article Card Loading Skeletons
+// ===================================================
 export function ArticleCardSkeleton() {
   return (
     <Card>

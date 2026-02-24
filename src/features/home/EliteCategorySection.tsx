@@ -17,7 +17,7 @@ interface EliteCategorySectionProps {
   categorySlug: string;
   articles: Article[];
   isLoading?: boolean;
-  // Section number passed from the parent to avoid counter issues in StrictMode
+  isError?: boolean;
   sectionNumber: number;
 }
 
@@ -26,15 +26,15 @@ export function EliteCategorySection({
   categorySlug,
   articles,
   isLoading = false,
+  isError = false,
   sectionNumber,
 }: EliteCategorySectionProps) {
   const instanceNumber = String(sectionNumber).padStart(2, "0");
+  const showSkeleton = isLoading || isError;
 
-  // Do not render if there is nothing to show and we are not loading
-  if (!isLoading && articles.length === 0) return null;
+  if (!showSkeleton && articles.length === 0) return null;
 
-  // For skeleton state we do not need to destructure articles
-  const [mainArticle, ...sideArticles] = isLoading ? [] : articles;
+  const [mainArticle, ...sideArticles] = showSkeleton ? [] : articles;
 
   return (
     <section className="relative overflow-hidden">
@@ -79,7 +79,7 @@ export function EliteCategorySection({
           transition={{ duration: 0.6 }}
           className="lg:col-span-8"
         >
-          {isLoading ? (
+          {showSkeleton ? (
             <EliteMainArticleSkeleton />
           ) : (
             <Link to={`/article/${mainArticle.slug}`} className="group block">
@@ -136,7 +136,7 @@ export function EliteCategorySection({
 
         {/* Side Articles - 4 columns, max 3 items */}
         <div className="lg:col-span-4 space-y-6">
-          {isLoading
+          {showSkeleton
             ? Array.from({ length: 3 }).map((_, index) => (
                 <motion.div
                   key={index}

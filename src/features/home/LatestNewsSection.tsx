@@ -19,14 +19,17 @@ import { formatDate } from "@/lib/dateUtils";
 interface LatestNewsSectionProps {
   articles: Article[];
   isLoading?: boolean;
+  isError?: boolean;
 }
 
 export function LatestNewsSection({
   articles,
   isLoading = false,
+  isError = false,
 }: LatestNewsSectionProps) {
-  // If not loading and there are no articles, don't render anything
-  if (!isLoading && articles.length === 0) return null;
+  // Show skeleton when loading or on error to keep stable layout
+  const showSkeleton = isLoading || isError;
+  if (!showSkeleton && articles.length === 0) return null;
 
   return (
     <div className="space-y-8">
@@ -61,7 +64,7 @@ export function LatestNewsSection({
         viewport={{ once: true }}
         transition={{ delay: 0.1 }}
       >
-        {isLoading ? (
+        {showSkeleton ? (
           <FeaturedArticleCardSkeleton />
         ) : (
           <Link to={`/article/${articles[0].slug}`} className="group block">
@@ -135,9 +138,8 @@ export function LatestNewsSection({
         transition={{ delay: 0.2 }}
         className="grid grid-cols-1 md:grid-cols-2 gap-6"
       >
-        {isLoading
-          ? // Show skeleton grid items while loading
-            Array.from({ length: 4 }).map((_, index) => (
+        {showSkeleton
+          ? Array.from({ length: 4 }).map((_, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}

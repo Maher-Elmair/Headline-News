@@ -59,10 +59,9 @@ export function CompactMarketWatch() {
         </div>
       </div>
 
-      {/* Market Items - Drag and Drop Design */}
+      {/* Market Items - keep skeleton on loading or error for stable layout */}
       <CardContent className="p-2 sm:p-3 space-y-1.5">
-        {allLoading ? (
-          // Loading skeleton using LoadingState component
+        {allLoading || hasErrors ? (
           <MarketWatchLoadingSkeleton count={10} />
         ) : (
           // Reorderable market items with smooth drag and drop

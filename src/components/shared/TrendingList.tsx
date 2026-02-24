@@ -9,12 +9,15 @@ import type { Article } from "@/types";
 interface TrendingListProps {
   articles: Article[];
   isLoading?: boolean;
+  isError?: boolean;
 }
 
 export function TrendingList({
   articles,
   isLoading = false,
+  isError = false,
 }: TrendingListProps) {
+  const showSkeleton = isLoading || isError;
   return (
     <Card className="border shadow-lg overflow-hidden">
       {/* Header - always visible */}
@@ -36,8 +39,7 @@ export function TrendingList({
       </div>
 
       <CardContent className="p-3 sm:p-4 space-y-4">
-        {isLoading ? (
-          // Show skeleton items while loading
+        {showSkeleton ? (
           <TrendingListItemsSkeleton count={6} />
         ) : (
           // Show actual articles

@@ -12,11 +12,13 @@ import { FeaturedCarouselSkeleton } from "@/components/shared/LoadingState";
 interface FeaturedCarouselProps {
   articles: Article[];
   isLoading?: boolean;
+  isError?: boolean;
 }
 
 export function FeaturedCarousel({
   articles,
   isLoading = false,
+  isError = false,
 }: FeaturedCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
@@ -55,8 +57,8 @@ export function FeaturedCarousel({
     }
   }, [isHovered, displayArticles.length, paginate]);
 
-  // Show skeleton while data is loading
-  if (isLoading) {
+  // Show skeleton while loading or on error to keep stable layout (best practice for failed fetch)
+  if (isLoading || isError) {
     return <FeaturedCarouselSkeleton />;
   }
 
