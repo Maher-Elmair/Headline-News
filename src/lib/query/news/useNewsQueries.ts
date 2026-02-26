@@ -99,7 +99,9 @@ export function useNewsByCategory(category: string) {
       const articles = await fetchNewsTwoPages({ category });
       const filtered = filterByCategory(articles, category);
       setCached(cacheKey, filtered);
-      console.log(`Fetched ${filtered.length} articles for category ${category}`);
+      console.log(
+        `Fetched ${filtered.length} articles for category ${category}`,
+      );
       return filtered;
     },
     enabled: !!category,
@@ -128,19 +130,26 @@ export function useSearchNews(query: string, enabled: boolean = true) {
 // ============================================================
 // useArticleBySlug (article by slug)
 // ============================================================
+/** Extracts the API article id from a slug. Slug format is "title-base--fullArticleId". */
+function getArticleIdFromSlug(slug: string): string {
+  const sep = "--";
+  const idx = slug.indexOf(sep);
+  if (idx >= 0) return slug.slice(idx + sep.length);
+  const parts = slug.split("-");
+  return parts[parts.length - 1] ?? "";
+}
+
 export function useArticleBySlug(slug: string) {
   return useQuery<Article | null>({
     queryKey: newsKeys.article(slug),
     queryFn: async () => {
-      const parts = slug.split("-");
-      const articleId = parts[parts.length - 1];
+      const articleId = getArticleIdFromSlug(slug);
       const article = await fetchArticleById(articleId);
       if (article) {
-        console.log(`Fetched article: ${article.title}`);
-      } else {
-        console.warn(`Article not found: ${slug}`);
+        return article;
       }
-      return article;
+      console.warn("[Headline] Article fetch failed:", slug);
+      return null;
     },
     enabled: !!slug,
     staleTime: CACHE_MAX_AGE_MS,

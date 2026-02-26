@@ -17,6 +17,19 @@ export const newsApiClient = axios.create({
   },
 });
 
+// Suppress 422 errors from console – they are handled gracefully in fetchArticleById.
+newsApiClient.interceptors.response.use(
+  (response) => response,
+  (error: unknown) => {
+    const status = (error as { response?: { status?: number } })?.response?.status;
+    if (status === 422) {
+      // Return a resolved promise so axios doesn't log the network error to the console.
+      return Promise.resolve((error as { response: unknown }).response);
+    }
+    return Promise.reject(error);
+  },
+);
+
 const generateAvatarUrl = (name: string): string => {
   const seed = name.trim() || "Unknown";
   return `https://api.dicebear.com/9.x/initials/png?seed=${encodeURIComponent(seed)}&size=100`;
@@ -32,13 +45,14 @@ const estimateReadingTime = (content: string | null): number => {
   return Math.max(1, Math.ceil(wordCount / wordsPerMinute));
 };
 
+/** Builds a URL-friendly slug that includes the full article id after "--" so we can fetch by id later. */
 const generateSlug = (title: string, id: string): string => {
   const base = title
     .toLowerCase()
     .replace(/[^a-z0-9\s-]/g, "")
     .replace(/\s+/g, "-")
     .slice(0, 60);
-  return `${base}-${id.slice(0, 8)}`;
+  return `${base}--${id}`;
 };
 
 const extractExcerpt = (
@@ -76,6 +90,7 @@ export const normalizeArticle = (raw: NewsDataArticle): Article => {
     slug: generateSlug(raw.title ?? raw.article_id, raw.article_id),
     excerpt: extractExcerpt(raw.description, raw.content),
     content: raw.content ?? raw.description ?? "",
+    link: raw.link ?? undefined,
     imageUrl: raw.image_url ?? FALLBACK_IMAGE,
     category: category.charAt(0).toUpperCase() + category.slice(1),
     author: {
@@ -197,13 +212,16 @@ export const fetchNewsTwoPages = async (
 export const fetchArticleById = async (
   articleId: string,
 ): Promise<Article | null> => {
-  const { data } = await newsApiClient.get<NewsDataResponse>("/latest", {
+  const response = await newsApiClient.get<NewsDataResponse>("/latest", {
     params: { id: articleId },
   });
 
-  if (data.status !== "success" || !data.results.length) {
+  // The interceptor resolves 422s, so .data may be undefined or status !== "success".
+  const data = response?.data;
+  if (!data || data.status !== "success" || !data.results?.length) {
     return null;
   }
 
   return normalizeArticle(data.results[0]);
 };
+

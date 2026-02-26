@@ -8,6 +8,8 @@ export interface Article {
   slug: string;
   excerpt: string;
   content: string;
+  /** Source article URL - used for Jina Reader full content fetch */
+  link?: string;
   imageUrl: string;
   category: string;
   author: {

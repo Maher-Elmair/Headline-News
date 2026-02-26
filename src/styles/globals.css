@@ -76,6 +76,7 @@
   --article-bg: #ffffff;
   --article-text: #1e293b;
   --article-heading: #0f172a;
+  --article-text-muted: rgba(30, 41, 59, 0.7);
   --article-font-size: 18px;
   --article-line-height: 1.8;
   --article-max-width: 720px;
@@ -121,6 +122,7 @@
   --article-bg: #050505;
   --article-text: #e2e8f0;
   --article-heading: #f8fafc;
+  --article-text-muted: rgba(226, 232, 240, 0.7);
 
   /* Sidebar Dark Mode */
   --sidebar: oklch(0.205 0 0);
@@ -471,6 +473,19 @@
     transparent 100%
   );
   background-size: 1000px 100%;
+}
+
+/* ============================================
+   ARTICLE CONTENT STYLES
+   ============================================ */
+/* Apply heading color to rendered article HTML content (e.g. from Jina) */
+.article-content h1,
+.article-content h2,
+.article-content h3,
+.article-content h4,
+.article-content h5,
+.article-content h6 {
+  color: var(--article-heading);
 }
 
 /* ============================================

@@ -316,6 +316,55 @@ export function CategoryShowcaseSkeleton() {
 }
 
 //==================================================
+//  Article Page Loading Skeleton
+//==================================================
+export function ArticlePageSkeleton() {
+  return (
+    <article
+      className="min-h-screen"
+      style={{ backgroundColor: "var(--article-bg)" }}
+    >
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6">
+        <Skeleton className="h-9 w-32" />
+      </div>
+      <header className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-12 space-y-6">
+        <Skeleton className="h-6 w-24" />
+        <Skeleton className="h-16 w-full" />
+        <Skeleton className="h-8 w-3/4" />
+        <div className="flex gap-6 pt-6">
+          <Skeleton className="h-12 w-12 rounded-full" />
+          <Skeleton className="h-4 w-24" />
+          <Skeleton className="h-4 w-20" />
+        </div>
+      </header>
+      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 mb-16">
+        <Skeleton className="aspect-video w-full rounded-2xl" />
+      </div>
+      <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 space-y-4">
+        <Skeleton className="h-4 w-full" />
+        <Skeleton className="h-4 w-full" />
+        <Skeleton className="h-4 w-5/6" />
+      </div>
+    </article>
+  );
+}
+
+// Skeleton for article body only (e.g. while full article is loading)
+export function ArticleContentSkeleton() {
+  return (
+    <div className="space-y-6">
+      <Skeleton className="h-4 w-full" />
+      <Skeleton className="h-4 w-full" />
+      <Skeleton className="h-4 w-4/5" />
+      <Skeleton className="h-4 w-full" />
+      <Skeleton className="h-4 w-3/4" />
+      <Skeleton className="h-4 w-full" />
+      <Skeleton className="h-4 w-5/6" />
+    </div>
+  );
+}
+
+//==================================================
 //==================================================
 //==================================================
 //==================================================

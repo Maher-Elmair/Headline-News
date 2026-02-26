@@ -63,9 +63,6 @@ const fetchUserCity = async (signal?: AbortSignal): Promise<string | null> => {
             lon: longitude,
             "accept-language": "en",
           },
-          headers: {
-            "User-Agent": "HeadlineApp/1.0",
-          },
           signal,
         },
       );

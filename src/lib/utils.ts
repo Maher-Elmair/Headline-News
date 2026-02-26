@@ -1,16 +1,16 @@
-import { clsx, type ClassValue } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
 /**
- * In development, proxy external images through CORS proxy to avoid CORS blocks.
+ * In development, proxy external images to avoid CORS and hotlink blocks (403).
  * In production, return the original URL.
  */
 export function getImageUrl(url: string | undefined): string | undefined {
-  if (!url || !url.startsWith("http")) return url
-  if (import.meta.env.PROD) return url
-  return `https://corsproxy.io/?${encodeURIComponent(url)}`
+  if (!url || !url.startsWith("http")) return url;
+  if (import.meta.env.PROD) return url;
+  return `https://wsrv.nl/?url=${encodeURIComponent(url)}`;
 }
