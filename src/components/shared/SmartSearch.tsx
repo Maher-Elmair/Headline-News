@@ -4,7 +4,8 @@ import { Link } from "react-router";
 import { motion, AnimatePresence } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useSearchNews, useTrendingNews } from "@/lib/query";
+import { useSearchNews, useTrendingNews, newsKeys } from "@/lib/query";
+import { useQueryClient } from "@tanstack/react-query";
 import type { Article } from "@/types";
 
 interface SmartSearchProps {
@@ -19,6 +20,7 @@ export function SmartSearch({ onClose }: SmartSearchProps) {
     "Climate",
     "Business",
   ]);
+  const queryClient = useQueryClient();
   const inputRef = useRef<HTMLInputElement>(null);
   const searchPanelRef = useRef<HTMLDivElement>(null);
 
@@ -87,7 +89,16 @@ export function SmartSearch({ onClose }: SmartSearchProps) {
     }
   }, [isOpen]);
 
-  const results = (searchResults as Article[]).slice(0, 5);
+  // Seed search results into per-article cache so ArticlePage can find them
+  useEffect(() => {
+    if (searchResults.length > 0) {
+      searchResults.forEach((article) => {
+        queryClient.setQueryData(newsKeys.article(article.slug), article);
+      });
+    }
+  }, [searchResults, queryClient]);
+
+  const results = (searchResults as Article[]).slice(0, 10);
   const trending = (trendingArticles as Article[]).slice(0, 3);
 
   return (

@@ -364,6 +364,53 @@ export function ArticleContentSkeleton() {
   );
 }
 
+// ===================================================
+//  Search Results Loading Skeleton
+// ===================================================
+export function SearchResultsSkeleton({ count = 6 }: { count?: number }) {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {Array.from({ length: count }).map((_, i) => (
+        <div key={i} className="rounded-xl border-2 border-border overflow-hidden bg-card flex flex-col">
+          {/* Image — 16/10 aspect ratio, matches ArticleCard */}
+          <div className="relative aspect-16/10 bg-muted">
+            <Skeleton className="absolute inset-0 w-full h-full rounded-none" />
+            {/* Floating category badge — top-right */}
+            <div className="absolute top-4 right-4">
+              <Skeleton className="h-5 w-16 rounded-full" />
+            </div>
+          </div>
+
+          {/* Content */}
+          <div className="p-6 space-y-4 flex-1 flex flex-col">
+            {/* Title — 3 lines */}
+            <div className="space-y-2">
+              <Skeleton className="h-5 w-full" />
+              <Skeleton className="h-5 w-5/6" />
+              <Skeleton className="h-5 w-3/4" />
+            </div>
+
+            {/* Excerpt — 2 lines */}
+            <div className="space-y-1.5 flex-1">
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-4/5" />
+            </div>
+
+            {/* Footer — avatar + author + reading time */}
+            <div className="flex items-center justify-between gap-4 pt-2 border-t border-border">
+              <div className="flex items-center gap-2">
+                <Skeleton className="h-7 w-7 rounded-full" />
+                <Skeleton className="h-4 w-24" />
+              </div>
+              <Skeleton className="h-4 w-14" />
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 //==================================================
 //==================================================
 //==================================================

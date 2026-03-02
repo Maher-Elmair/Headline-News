@@ -4,6 +4,7 @@ import {
   SheetContent,
   SheetHeader,
   SheetTitle,
+  SheetDescription,
 } from "@/components/ui/sheet";
 import { LogoIcon } from "./LogoIcon";
 // import { categories } from "@/lib/mock-data";
@@ -60,6 +61,9 @@ export function NavigationDrawer({
               {/* Logo with hover animation */}
               <LogoIcon />
               <SheetTitle className="font-serif text-2xl">Menu</SheetTitle>
+              <SheetDescription className="sr-only">
+                Navigation menu for Headline news
+              </SheetDescription>
             </div>
           </SheetHeader>
 

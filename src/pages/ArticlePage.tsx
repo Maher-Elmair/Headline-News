@@ -16,11 +16,14 @@ import {
   useTopNews,
   useFeaturedNews,
   useTrendingNews,
+  newsKeys,
 } from "@/lib/query";
+import { useQueryClient } from "@tanstack/react-query";
 import { formatDateFull } from "@/lib/dateUtils";
 import { ImageWithFallback } from "@/components/shared/ImageWithFallback";
 import { ArticlePageSkeleton, ArticleContentSkeleton } from "@/components/shared/LoadingState";
 import NotFoundPage from "@/pages/NotFoundPage";
+import type { Article } from "@/types";
 
 /** Builds a readable title from slug (segment before "--" if any, dashes to spaces, title case). */
 function getTitleFromSlug(slug: string): string {
@@ -34,6 +37,7 @@ function getTitleFromSlug(slug: string): string {
 function ArticlePageContent() {
   const { slug } = useParams<{ slug: string }>();
   const isPageLoading = usePageLoading(800);
+  const queryClient = useQueryClient();
 
   const { data: topArticles = [] } = useTopNews();
   const { data: featuredArticles = [] } = useFeaturedNews();
@@ -46,14 +50,19 @@ function ArticlePageContent() {
     ...trendingArticles,
   ].find((a) => a.slug === slug);
 
-  const shouldFetchBySlug = !articleFromList && !!slug;
+  // Also check per-article cache seeded by SearchPage
+  const cachedSearchArticle = slug
+    ? queryClient.getQueryData(newsKeys.article(slug))
+    : undefined;
+
+  const shouldFetchBySlug = !articleFromList && !cachedSearchArticle && !!slug;
   const {
     data: fetchedArticle,
     isLoading: articleLoading,
     isError: articleError,
   } = useArticleBySlug(shouldFetchBySlug ? slug : "");
 
-  const article = articleFromList ?? fetchedArticle ?? null;
+  const article = articleFromList ?? (cachedSearchArticle as Article | undefined) ?? fetchedArticle ?? null;
 
   const rawContent = article?.content?.trim() ?? "";
   const isContentLimited =

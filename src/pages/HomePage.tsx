@@ -38,17 +38,36 @@ function claimArticles(
 function HomePage() {
   const isPageLoading = usePageLoading(800);
 
-  const { data: featuredArticles = [], isLoading: featuredLoading, isError: featuredError } =
-    useFeaturedNews();
-  const { data: topArticles = [], isLoading: topLoading, isError: topError } = useTopNews();
-  const { data: trendingArticles = [], isLoading: trendingLoading, isError: trendingError } =
-    useTrendingNews();
-  const { data: technologyArticles = [], isLoading: techLoading, isError: techError } =
-    useNewsByCategory("technology");
-  const { data: businessArticles = [], isLoading: businessLoading, isError: businessError } =
-    useNewsByCategory("business");
-  const { data: scienceArticles = [], isLoading: scienceLoading, isError: scienceError } =
-    useNewsByCategory("science");
+  const {
+    data: featuredArticles = [],
+    isLoading: featuredLoading,
+    isError: featuredError,
+  } = useFeaturedNews();
+  const {
+    data: topArticles = [],
+    isLoading: topLoading,
+    isError: topError,
+  } = useTopNews();
+  const {
+    data: trendingArticles = [],
+    isLoading: trendingLoading,
+    isError: trendingError,
+  } = useTrendingNews();
+  const {
+    data: technologyArticles = [],
+    isLoading: techLoading,
+    isError: techError,
+  } = useNewsByCategory("technology");
+  const {
+    data: businessArticles = [],
+    isLoading: businessLoading,
+    isError: businessError,
+  } = useNewsByCategory("business");
+  const {
+    data: scienceArticles = [],
+    isLoading: scienceLoading,
+    isError: scienceError,
+  } = useNewsByCategory("science");
 
   // ============================================================
   // A shared usedIds Set is passed through each claimArticles
