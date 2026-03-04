@@ -11,4 +11,6 @@ export const newsKeys = {
   article: (slug: string) => [...newsKeys.all, "article", slug] as const,
   category: (category: string) =>
     [...newsKeys.all, "category", category] as const,
+  categoryCount: (slug: string) =>
+    [...newsKeys.all, "categoryCount", slug] as const,
 };

@@ -9,4 +9,5 @@ export const categories = [
   "Health",
   "Sports",
   "Culture",
+  "Opinion",
 ];

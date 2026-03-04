@@ -411,6 +411,50 @@ export function SearchResultsSkeleton({ count = 6 }: { count?: number }) {
   );
 }
 
+// ===================================================
+//  Categories Page Loading Skeleton
+// ===================================================
+export function CategoriesPageSkeleton() {
+  return (
+    <div className="min-h-screen">
+      {/* Categories Grid Skeleton – 9 cards stacked vertically */}
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 space-y-12">
+        {Array.from({ length: 9 }).map((_, index) => (
+          <div key={index}>
+            <Card className="overflow-hidden">
+              <CardContent className="p-0">
+                <div className="flex flex-col md:flex-row">
+                  {/* Icon area skeleton – matches the coloured background */}
+                  <div className="bg-muted aspect-3/2 md:aspect-auto md:w-50 md:min-h-full md:self-stretch flex items-center justify-center">
+                    <Skeleton className="h-16 w-16 md:h-20 md:w-20 rounded-xl" />
+                  </div>
+
+                  {/* Text content skeleton */}
+                  <div className="p-6 md:p-8 flex flex-col justify-center flex-1 space-y-3">
+                    <div className="flex items-start justify-between gap-4">
+                      <Skeleton className="h-8 w-32" />
+                      <Skeleton className="h-6 w-20 rounded-full" />
+                    </div>
+                    <div className="space-y-2">
+                      <Skeleton className="h-4 w-full" />
+                      <Skeleton className="h-4 w-5/6" />
+                      <Skeleton className="h-4 w-4/5" />
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Skeleton className="h-4 w-24" />
+                      <Skeleton className="h-4 w-4" />
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        ))}
+      </section>
+    </div>
+  );
+}
+
 //==================================================
 //==================================================
 //==================================================
