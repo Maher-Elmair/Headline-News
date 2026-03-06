@@ -12,7 +12,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { LogoIcon } from "./LogoIcon";
 // import { categories } from "@/lib/mock-data";
-import { categories } from "@/lib/constants";
+import { categories } from "@/lib/categories-data";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();

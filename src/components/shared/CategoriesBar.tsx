@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router';
-import { categories } from "@/lib/constants";
+import { categories } from "@/lib/categories-data";
 
 export function CategoriesBar() {
   const location = useLocation();

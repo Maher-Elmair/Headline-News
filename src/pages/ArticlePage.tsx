@@ -55,14 +55,22 @@ function ArticlePageContent() {
     ? queryClient.getQueryData(newsKeys.article(slug))
     : undefined;
 
-  const shouldFetchBySlug = !articleFromList && !cachedSearchArticle && !!slug;
+  // Check all cached query data for articles (including category responses)
+  const allCachedQueries = queryClient.getQueriesData<Article[]>({ queryKey: newsKeys.all });
+  const articleFromCache = allCachedQueries
+    .map(([, data]) => data)
+    .flat()
+    .find((a) => a?.slug === slug);
+
+  // Fallback to fetch if not found in cache
+  const shouldFetchBySlug = !articleFromList && !cachedSearchArticle && !articleFromCache && !!slug;
   const {
     data: fetchedArticle,
     isLoading: articleLoading,
     isError: articleError,
   } = useArticleBySlug(shouldFetchBySlug ? slug : "");
 
-  const article = articleFromList ?? (cachedSearchArticle as Article | undefined) ?? fetchedArticle ?? null;
+  const article = articleFromList ?? articleFromCache ?? (cachedSearchArticle as Article | undefined) ?? fetchedArticle ?? null;
 
   const rawContent = article?.content?.trim() ?? "";
   const isContentLimited =

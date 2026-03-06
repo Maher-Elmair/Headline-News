@@ -13,7 +13,7 @@
  * Requests are staggered with a per-query `initialDelay` to avoid
  * hitting the NewsData.io free-plan rate limit when multiple queries
  * start at the same time.
- * - Categories unsupported by the API (opinion) are skipped; their badge
+ * - Categories unsupported by the API (Other) are skipped; their badge
  *   renders "N/A".
  */
 
@@ -40,15 +40,15 @@ const REQUEST_STAGGER_MS = 1000;
  * `null` = unsupported → no request is made; badge shows "N/A".
  */
 const NEWS_SLUG_MAP: Record<string, string | null> = {
-  world:      "world",
-  politics:   "politics",
-  business:   "business",
-  technology: "technology",
-  science:    "science",
-  health:     "health",
-  sports:     "sports",
-  culture:    "entertainment",
-  opinion:    null,
+  world:        "world",
+  politics:     "politics",
+  business:     "business",
+  technology:   "technology",
+  science:      "science",
+  health:       "health",
+  sports:       "sports",
+  entertainment:"entertainment",
+  Other:        "other",
 };
 
 // ─── Types ────────────────────────────────────────────────────────────────────

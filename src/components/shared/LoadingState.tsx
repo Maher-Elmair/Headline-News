@@ -456,6 +456,55 @@ export function CategoriesPageSkeleton() {
 }
 
 //==================================================
+//  Category Page Content Skeleton
+//==================================================
+export function StatValueSkeleton() {
+  return <Skeleton className="h-8 w-16" />;
+}
+
+export function CategoryNameSkeleton() {
+  return <Skeleton className="h-10 md:h-12 w-48" />;
+}
+
+export function ArticleCountSkeleton() {
+  return <Skeleton className="h-6 w-24 rounded-full" />;
+}
+
+export function CategoryDescriptionSkeleton() {
+  return (
+    <div className="space-y-2 max-w-2xl mt-2">
+      <Skeleton className="h-4 w-full" />
+      <Skeleton className="h-4 w-3/4" />
+    </div>
+  );
+}
+
+export function CategoryQuickStatsSkeleton() {
+  return (
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-6 bg-accent/30 rounded-xl border border-border/50">
+      {Array.from({ length: 4 }).map((_, i) => (
+        <div key={i}>
+          <Skeleton className="h-4 w-24 mb-2" />
+          <StatValueSkeleton />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export function CategoryPageContentSkeleton() {
+  return (
+    <div className="space-y-12">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {Array.from({ length: 6 }).map((_, i) => (
+          <ArticleCardSkeleton key={i} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+//==================================================
 //==================================================
 //==================================================
 //==================================================

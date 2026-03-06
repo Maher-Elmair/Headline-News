@@ -10,9 +10,9 @@ import {
   FlaskConical,
   Heart,
   Trophy,
-  Palette,
-  MessageSquare,
   type LucideIcon,
+  Clapperboard,
+  Shapes,
 } from "lucide-react";
 
 export interface CategoryData {
@@ -97,9 +97,9 @@ export const categoriesData: CategoryData[] = [
       "Follow your favorite teams and athletes with live scores, game highlights, sports analysis, and championship coverage.",
   },
   {
-    name: "Culture",
-    slug: "culture",
-    icon: Palette,
+    name: "Entertainment",
+    slug: "entertainment",
+    icon: Clapperboard,
     color: "text-pink-600 dark:text-pink-400",
     bgColor: "bg-pink-50 dark:bg-pink-950/30",
     description: "Arts, entertainment, and cultural trends",
@@ -107,13 +107,15 @@ export const categoriesData: CategoryData[] = [
       "Explore arts, music, film, books, and cultural movements that shape our society and creative expression.",
   },
   {
-    name: "Opinion",
-    slug: "opinion",
-    icon: MessageSquare,
+    name: "Other",
+    slug: "other",
+    icon: Shapes,
     color: "text-amber-600 dark:text-amber-400",
     bgColor: "bg-amber-50 dark:bg-amber-950/30",
     description: "Perspectives, editorials, and thought leadership",
     longDescription:
-      "Thought-provoking editorials, expert opinions, and diverse perspectives on the issues that matter most.",
+      "Thought-provoking editorials, expert Other, and diverse perspectives on the issues that matter most.",
   },
 ];
+
+export const categories = categoriesData.map((c) => c.name);

@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/sheet";
 import { LogoIcon } from "./LogoIcon";
 // import { categories } from "@/lib/mock-data";
-import { categories } from "@/lib/constants";
+import { categories } from "@/lib/categories-data";
 
 /**
  * NavigationDrawer Component

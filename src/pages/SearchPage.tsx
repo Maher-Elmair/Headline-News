@@ -11,7 +11,7 @@ import { SearchResultsSkeleton } from "@/components/shared/LoadingState";
 import { Badge } from "@/components/ui/badge";
 import { useSearchNews, useTrendingNews, newsKeys } from "@/lib/query";
 import { useQueryClient } from "@tanstack/react-query";
-import { categories } from "@/lib/constants";
+import { categories } from "@/lib/categories-data";
 
 function SearchPage() {
   const [searchParams, setSearchParams] = useSearchParams();

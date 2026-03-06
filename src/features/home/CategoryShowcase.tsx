@@ -10,10 +10,10 @@ import {
   FlaskConical,
   Heart,
   Trophy,
-  Palette,
-  MessageSquare,
   ArrowRight,
   Layers,
+  Clapperboard,
+  Shapes,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CategoryShowcaseSkeleton } from "@/components/shared/LoadingState";
@@ -75,16 +75,16 @@ const categoryData: Array<{
     iconColor: "text-orange-500",
   },
   {
-    name: "Culture",
-    slug: "culture",
-    icon: Palette,
+    name: "Entertainment",
+    slug: "entertainment",
+    icon: Clapperboard,
     gradient: "from-pink-500 to-rose-500",
     iconColor: "text-pink-500",
   },
   {
-    name: "Opinion",
-    slug: "opinion",
-    icon: MessageSquare,
+    name: "Other",
+    slug: "other",
+    icon: Shapes,
     gradient: "from-amber-500 to-yellow-500",
     iconColor: "text-amber-500",
   },

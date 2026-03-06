@@ -9,8 +9,8 @@ export const mockCategories = [
   "Science",
   "Health",
   "Sports",
-  "Culture",
-  "Opinion",
+  "Entertainment",
+  "Other",
 ];
 
 /**
@@ -343,7 +343,7 @@ The museum reports that the exhibition has attracted an unusually diverse audien
 As digital technologies continue to evolve rapidly, the exhibition raises questions about what comes next. Artificial intelligence is already beginning to play a role in artistic creation, and several works in the show explore the creative possibilities and ethical questions that arise when machines become collaborators in the artistic process.`,
     imageUrl:
       "https://images.unsplash.com/photo-1547826039-bfc35e0f1ea8?w=1200&h=800&fit=crop",
-    category: "Culture",
+    category: "Entertainment",
     author: {
       name: "Rebecca Foster",
       avatar:
@@ -352,7 +352,7 @@ As digital technologies continue to evolve rapidly, the exhibition raises questi
     publishedAt: "2025-01-24T11:00:00Z",
     readingTime: 7,
     views: 15600,
-    tags: ["Art", "Culture", "Technology"],
+    tags: ["Art", "Entertainment", "Technology"],
   },
   // New articles from id 9 to 30
   {
@@ -732,7 +732,7 @@ Critics note that vinyl's environmental impact—PVC production and heavy shippi
 
 The trend shows no signs of slowing, with younger consumers driving growth. Record Store Day events continue to draw crowds, and turntable sales are booming.`,
     imageUrl: "https://images.unsplash.com/photo-1603048588665-791ca8aea617?w=1200&h=800&fit=crop",
-    category: "Culture",
+    category: "Entertainment",
     author: {
       name: "Amanda Green",
       avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop",
