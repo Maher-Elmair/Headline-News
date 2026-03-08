@@ -61,22 +61,40 @@ export function useTopNews() {
 // ============================================================
 // useTrendingNews (trending news)
 // ============================================================
-export function useTrendingNews() {
-  const cacheKey = "trending";
+export function useTrendingNews(timeFrame: 'today' | 'week' | 'month' = 'today') {
+  const cacheKey = `trending_${timeFrame}`;
 
   return useQuery<Article[]>({
-    queryKey: newsKeys.trending(),
+    queryKey: newsKeys.trending(timeFrame),
     queryFn: async () => {
       const cached = getCached<Article[]>(cacheKey, CACHE_MAX_AGE_MS);
       if (cached) return cached;
 
+      // NewsData.io limits timeframe parameter to premium accounts or 48h max.
+      // We will perform a standard fetch and filter/sort client-side.
       const articles = await fetchNews({ query: "trending" });
-      const sorted = [...articles].sort(
+      
+      const now = new Date().getTime();
+      const timeMs = 
+        timeFrame === 'today' ? 24 * 60 * 60 * 1000 :
+        timeFrame === 'week' ? 7 * 24 * 60 * 60 * 1000 :
+        30 * 24 * 60 * 60 * 1000; // month
+
+      const filtered = articles.filter(a => {
+        const pDate = new Date(a.publishedAt).getTime();
+        return (now - pDate) <= timeMs;
+      });
+
+      // If strict timeframe filtering results in empty, fallback to all fetched articles 
+      // so the page doesn't look broken.
+      const finalArticles = filtered.length > 0 ? filtered : articles;
+
+      const sorted = [...finalArticles].sort(
         (a, b) =>
           new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime(),
       );
       setCached(cacheKey, sorted);
-      console.log(`Fetched ${sorted.length} articles for trending`);
+      console.log(`Fetched ${sorted.length} articles for trending ${timeFrame}`);
       return sorted;
     },
     staleTime: CACHE_MAX_AGE_MS,

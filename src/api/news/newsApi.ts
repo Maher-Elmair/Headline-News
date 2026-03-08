@@ -134,6 +134,7 @@ export interface FetchNewsParams {
   category?: string;
   query?: string;
   page?: string;
+  timeframe?: string | number;
 }
 
 export const fetchNews = async (
@@ -144,6 +145,7 @@ export const fetchNews = async (
       ...(params.category && { category: params.category.toLowerCase() }),
       ...(params.query && { q: params.query }),
       ...(params.page && { page: params.page }),
+      ...(params.timeframe && { timeframe: params.timeframe }),
       image: 1,
     },
   });
