@@ -5,18 +5,29 @@ import { ArrowUp, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export function ScrollToTop() {
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
   const [isVisible, setIsVisible] = useState(false);
 
-  // Automatically scroll to top on route change or refresh
+  // Automatically scroll to top on route change or refresh, unless there's a hash
   useEffect(() => {
     // Disable browser's default scroll restoration ensures we stay at top on refresh
     if ("scrollRestoration" in window.history) {
       window.history.scrollRestoration = "manual";
     }
     
-    window.scrollTo(0, 0);
-  }, [pathname]);
+    if (hash) {
+      // Wait a moment for the page to render to scroll to the hash element
+      setTimeout(() => {
+        const id = hash.replace("#", "");
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 100);
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [pathname, hash]);
 
   useEffect(() => {
     const toggleVisibility = () => {

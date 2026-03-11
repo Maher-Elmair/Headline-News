@@ -11,7 +11,6 @@ import {
 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { LogoIcon } from "./LogoIcon";
-// import { categories } from "@/lib/mock-data";
 import { categories } from "@/lib/categories-data";
 
 export function Footer() {
@@ -180,7 +179,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  to="/api-status"
+                  to="/about#api-status"
                   className="text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-2 group"
                 >
                   <span className="h-1.5 w-1.5 rounded-full bg-primary/40 group-hover:bg-primary transition-colors" />
