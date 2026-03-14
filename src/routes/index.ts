@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router";
 import { RootLayout } from "@/layouts/RootLayout";
-import { HomePage, ArticlePage, SearchPage, CategoriesPage, CategoryPage, TrendingPage, AboutPage, NotFoundPage } from "@/pages";
+import { HomePage, ArticlePage, SearchPage, CategoriesPage, CategoryPage, TrendingPage, AboutPage, PrivacyPage, NotFoundPage } from "@/pages";
 
 export const router = createBrowserRouter([
   {
@@ -14,6 +14,7 @@ export const router = createBrowserRouter([
       { path: 'category/:category', Component: CategoryPage },
       { path: 'trending', Component: TrendingPage },
       { path: 'about', Component: AboutPage },
+      { path: 'privacy', Component: PrivacyPage },
       { path: "*", Component: NotFoundPage },
     ],
   },
