@@ -8,7 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { ReadingProgressBar } from "@/features/article/ReadingProgressBar";
 import { ReadingSettingsPanel } from "@/features/article/ReadingSettingsPanel";
 import { ShareButtons } from "@/features/article/ShareButtons";
-import { NewsList } from "@/features/article/NewsList";
+import { NewsList } from "@/components/shared/NewsList";
 import { usePageLoading, useJinaContent } from "@/hooks";
 import { ReadingSettingsProvider } from "@/lib/reading-settings-context";
 import {
@@ -21,7 +21,10 @@ import {
 import { useQueryClient } from "@tanstack/react-query";
 import { formatDateFull } from "@/lib/dateUtils";
 import { ImageWithFallback } from "@/components/shared/ImageWithFallback";
-import { ArticlePageSkeleton, ArticleContentSkeleton } from "@/components/shared/LoadingState";
+import {
+  ArticlePageSkeleton,
+  ArticleContentSkeleton,
+} from "@/components/shared/LoadingState";
 import NotFoundPage from "@/pages/NotFoundPage";
 import type { Article } from "@/types";
 
@@ -56,21 +59,29 @@ function ArticlePageContent() {
     : undefined;
 
   // Check all cached query data for articles (including category responses)
-  const allCachedQueries = queryClient.getQueriesData<Article[]>({ queryKey: newsKeys.all });
+  const allCachedQueries = queryClient.getQueriesData<Article[]>({
+    queryKey: newsKeys.all,
+  });
   const articleFromCache = allCachedQueries
     .map(([, data]) => data)
     .flat()
     .find((a) => a?.slug === slug);
 
   // Fallback to fetch if not found in cache
-  const shouldFetchBySlug = !articleFromList && !cachedSearchArticle && !articleFromCache && !!slug;
+  const shouldFetchBySlug =
+    !articleFromList && !cachedSearchArticle && !articleFromCache && !!slug;
   const {
     data: fetchedArticle,
     isLoading: articleLoading,
     isError: articleError,
   } = useArticleBySlug(shouldFetchBySlug ? slug : "");
 
-  const article = articleFromList ?? articleFromCache ?? (cachedSearchArticle as Article | undefined) ?? fetchedArticle ?? null;
+  const article =
+    articleFromList ??
+    articleFromCache ??
+    (cachedSearchArticle as Article | undefined) ??
+    fetchedArticle ??
+    null;
 
   const rawContent = article?.content?.trim() ?? "";
   const isContentLimited =
@@ -78,17 +89,20 @@ function ArticlePageContent() {
     rawContent.length < 400;
   const shouldFetchJina = Boolean(article?.link) && isContentLimited;
 
-  const { data: jinaData, isLoading: jinaLoading, isError: jinaError } = useJinaContent(
-    article?.link,
-    shouldFetchJina,
-  );
+  const {
+    data: jinaData,
+    isLoading: jinaLoading,
+    isError: jinaError,
+  } = useJinaContent(article?.link, shouldFetchJina);
 
   if (!slug) {
     return <Navigate to="/" replace />;
   }
 
   const articleFetchFailed =
-    shouldFetchBySlug && !articleLoading && (articleError || fetchedArticle === null);
+    shouldFetchBySlug &&
+    !articleLoading &&
+    (articleError || fetchedArticle === null);
   if (articleFetchFailed) {
     return (
       <NotFoundPage
@@ -300,7 +314,8 @@ function ArticlePageContent() {
               fontSize: "var(--article-font-size)",
               lineHeight: "var(--article-line-height)",
               fontFamily: "var(--article-font-family)",
-              textAlign: "var(--article-text-align)" as React.CSSProperties["textAlign"],
+              textAlign:
+                "var(--article-text-align)" as React.CSSProperties["textAlign"],
             }}
           >
             {(() => {
@@ -314,14 +329,21 @@ function ArticlePageContent() {
                 return (
                   <div
                     className="article-content [&_p]:mb-6 [&_h1]:text-2xl [&_h1]:font-bold [&_h1]:mb-4 [&_h1]:mt-8 [&_h2]:text-xl [&_h2]:font-bold [&_h2]:mb-3 [&_h2]:mt-6 [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:mb-2 [&_h3]:mt-4 [&_a]:text-primary [&_a]:underline [&_a]:underline-offset-2 hover:[&_a]:no-underline"
-                    style={{ "--prose-heading": "var(--article-heading)" } as React.CSSProperties}
+                    style={
+                      {
+                        "--prose-heading": "var(--article-heading)",
+                      } as React.CSSProperties
+                    }
                     dangerouslySetInnerHTML={{ __html: jinaData.content }}
                   />
                 );
               }
 
               if (isContentLimited) {
-                const fetchFailed = shouldFetchJina && !jinaLoading && (jinaError || !jinaData?.content);
+                const fetchFailed =
+                  shouldFetchJina &&
+                  !jinaLoading &&
+                  (jinaError || !jinaData?.content);
 
                 if (!excerpt) {
                   return (
@@ -338,7 +360,8 @@ function ArticlePageContent() {
                             Full article could not be loaded.
                           </p>
                           <p className="text-sm mb-3">
-                            The source website may be blocking access or the page is temporarily unavailable.
+                            The source website may be blocking access or the
+                            page is temporarily unavailable.
                           </p>
                           <a
                             href={article.link}
@@ -393,7 +416,8 @@ function ArticlePageContent() {
                           Full article could not be loaded.
                         </p>
                         <p className="text-sm mb-3">
-                          The source website may be blocking access or the page is temporarily unavailable.
+                          The source website may be blocking access or the page
+                          is temporarily unavailable.
                         </p>
                         <a
                           href={article.link}

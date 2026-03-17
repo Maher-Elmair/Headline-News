@@ -4,7 +4,7 @@ import { motion } from "motion/react";
 import { Search, X, Filter, SortAsc } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { NewsList } from "@/features/article/NewsList";
+import { NewsList } from "@/components/shared/NewsList";
 import { TrendingList } from "@/components/shared/TrendingList";
 import { EmptyState } from "@/components/shared/EmptyState";
 import { SearchResultsSkeleton } from "@/components/shared/LoadingState";

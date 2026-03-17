@@ -1,35 +1,40 @@
-import { useState } from 'react';
-import { motion } from 'motion/react';
-import { TrendingUp, Flame, Clock, Calendar } from 'lucide-react';
-import { NewsList } from "@/features/article/NewsList";
-import { Badge } from '@/components/ui/badge';
-import { Card } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
-import { usePageLoading } from '@/hooks/usePageLoading';
-import { useTrendingNews } from '@/lib/query';
-import { SearchResultsSkeleton } from '@/components/shared/LoadingState';
+import { useState } from "react";
+import { motion } from "motion/react";
+import { TrendingUp, Flame, Clock, Calendar } from "lucide-react";
+import { NewsList } from "@/components/shared/NewsList";
+import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+import { usePageLoading } from "@/hooks/usePageLoading";
+import { useTrendingNews } from "@/lib/query";
+import { SearchResultsSkeleton } from "@/components/shared/LoadingState";
 
-type TimeFrame = 'today' | 'week' | 'month';
+type TimeFrame = "today" | "week" | "month";
 
 function TrendingPage() {
   const isPageLoading = usePageLoading(800);
-  const [timeFrame, setTimeFrame] = useState<TimeFrame>('today');
-  
-  const { data: articles = [], isLoading, isError } = useTrendingNews(timeFrame);
-  
+  const [timeFrame, setTimeFrame] = useState<TimeFrame>("today");
+
+  const {
+    data: articles = [],
+    isLoading,
+    isError,
+  } = useTrendingNews(timeFrame);
+
   const showSkeleton = isPageLoading || isLoading || isError;
 
-  const timeFrames: { value: TimeFrame; label: string; icon: typeof Clock }[] = [
-    { value: 'today', label: 'Today', icon: Clock },
-    { value: 'week', label: 'This Week', icon: Calendar },
-    { value: 'month', label: 'This Month', icon: TrendingUp },
-  ];
+  const timeFrames: { value: TimeFrame; label: string; icon: typeof Clock }[] =
+    [
+      { value: "today", label: "Today", icon: Clock },
+      { value: "week", label: "This Week", icon: Calendar },
+      { value: "month", label: "This Month", icon: TrendingUp },
+    ];
 
   return (
     <div className="min-h-screen py-12">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-12"
@@ -64,9 +69,10 @@ function TrendingPage() {
                 onClick={() => setTimeFrame(value)}
                 className={`
                   flex items-center gap-2 px-6 py-3 rounded-lg border-2 cursor-pointer transition-all
-                  ${timeFrame === value 
-                    ? 'bg-primary text-primary-foreground border-primary shadow-lg shadow-primary/30' 
-                    : 'bg-card border-border hover:border-primary/50'
+                  ${
+                    timeFrame === value
+                      ? "bg-primary text-primary-foreground border-primary shadow-lg shadow-primary/30"
+                      : "bg-card border-border hover:border-primary/50"
                   }
                 `}
               >
@@ -87,7 +93,9 @@ function TrendingPage() {
           <Card className="p-6 bg-linear-to-r from-orange-500/10 via-red-500/10 to-pink-500/10 border-2">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               <div>
-                <p className="text-sm text-muted-foreground mb-1">Trending Stories</p>
+                <p className="text-sm text-muted-foreground mb-1">
+                  Trending Stories
+                </p>
                 {showSkeleton ? (
                   <Skeleton className="h-9 w-16" />
                 ) : (
@@ -97,24 +105,28 @@ function TrendingPage() {
                 )}
               </div>
               <div>
-                <p className="text-sm text-muted-foreground mb-1">Total Views</p>
+                <p className="text-sm text-muted-foreground mb-1">
+                  Total Views
+                </p>
                 {showSkeleton ? (
                   <Skeleton className="h-9 w-24" />
                 ) : (
                   <p className="text-3xl font-bold text-red-600 dark:text-red-400">
-                    {articles.length > 0 
-                      ? (articles.length * 15420).toLocaleString() 
-                      : '0'}
+                    {articles.length > 0
+                      ? (articles.length * 15420).toLocaleString()
+                      : "0"}
                   </p>
                 )}
               </div>
               <div>
-                <p className="text-sm text-muted-foreground mb-1">Top Category</p>
+                <p className="text-sm text-muted-foreground mb-1">
+                  Top Category
+                </p>
                 {showSkeleton ? (
                   <Skeleton className="h-9 w-32" />
                 ) : (
                   <p className="text-3xl font-bold text-pink-600 dark:text-pink-400">
-                    {articles[0]?.category || 'N/A'}
+                    {articles[0]?.category || "N/A"}
                   </p>
                 )}
               </div>

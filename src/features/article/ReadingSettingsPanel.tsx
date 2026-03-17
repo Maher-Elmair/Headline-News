@@ -8,7 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Separator } from '@/components/ui/separator';
 import { useReadingSettings } from "@/hooks";
 import { presets, type ReadingPreset, type ReadingSettings } from "@/lib/reading-settings";
-import { ColorPicker } from '@/components/shared/ColorPicker';
+import { ColorPicker } from '@/features/article/ColorPicker';
 
 function settingsMatchPreset(settings: ReadingSettings, presetId: ReadingPreset): boolean {
   const p = presets[presetId];
@@ -72,7 +72,7 @@ export function ReadingSettingsPanel() {
       <SheetContent
         className="w-full sm:max-w-lg p-0 overflow-y-auto bg-background border-l border-border"
       >
-        <SheetHeader className="sticky top-0 z-10 px-6 pt-5 pb-4 bg-background border-b-2 border-border shadow-sm relative">
+        <SheetHeader className="sticky top-0 z-10 px-6 pt-5 pb-4 bg-background border-b-2 border-border shadow-sm">
           {/* Close button — pinned top-right */}
           <SheetClose asChild>
             <Button

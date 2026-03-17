@@ -83,16 +83,22 @@ function CategoriesPage() {
 
                             {/* Article count badge — shows skeleton while loading,
                                 "N/A" for unsupported categories, or the real count */}
-                            {countsLoading && counts[category.name] === undefined ? (
+                            {countsLoading &&
+                            counts[category.name] === undefined ? (
                               <Skeleton className="h-5 w-20 shrink-0 rounded-full" />
                             ) : counts[category.name] === null ? (
-                              <Badge variant="outline" className="shrink-0 text-muted-foreground">
+                              <Badge
+                                variant="outline"
+                                className="shrink-0 text-muted-foreground"
+                              >
                                 N/A
                               </Badge>
                             ) : (
                               <Badge variant="secondary" className="shrink-0">
                                 {counts[category.name]}{" "}
-                                {counts[category.name] === 1 ? "Article" : "Articles"}
+                                {counts[category.name] === 1
+                                  ? "Article"
+                                  : "Articles"}
                               </Badge>
                             )}
                           </div>

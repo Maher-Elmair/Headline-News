@@ -19,11 +19,7 @@ export interface NotFoundPageProps {
 }
 
 function NotFoundPage(props: NotFoundPageProps = {}) {
-  const {
-    variant = "not-found",
-    articleSlug,
-    articleTitleFromSlug,
-  } = props;
+  const { variant = "not-found", articleSlug, articleTitleFromSlug } = props;
   const navigate = useNavigate();
   const isArticleFailed = variant === "article-failed";
 
@@ -119,13 +115,19 @@ function NotFoundPage(props: NotFoundPageProps = {}) {
                   Article could not be loaded
                 </h2>
                 <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-                  The article failed to load. The news API may not support fetching this article by ID, or the article may no longer be available.
+                  The article failed to load. The news API may not support
+                  fetching this article by ID, or the article may no longer be
+                  available.
                 </p>
                 {(articleTitleFromSlug || articleSlug) && (
                   <div className="text-left max-w-2xl mx-auto rounded-lg border border-border bg-muted/30 p-4">
-                    <p className="text-sm font-medium text-muted-foreground mb-1">Requested article</p>
+                    <p className="text-sm font-medium text-muted-foreground mb-1">
+                      Requested article
+                    </p>
                     {articleTitleFromSlug && (
-                      <p className="font-medium wrap-break-word">{articleTitleFromSlug}</p>
+                      <p className="font-medium wrap-break-word">
+                        {articleTitleFromSlug}
+                      </p>
                     )}
                     {articleSlug && (
                       <p className="text-sm text-muted-foreground mt-1 break-all font-mono">
@@ -144,11 +146,13 @@ function NotFoundPage(props: NotFoundPageProps = {}) {
                   Lost in the Headlines?
                 </h2>
                 <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-                  Looks like this story doesn't exist. The page you're looking for
-                  may have been moved, deleted, or never existed in the first place.
+                  Looks like this story doesn't exist. The page you're looking
+                  for may have been moved, deleted, or never existed in the
+                  first place.
                 </p>
                 <p className="text-base text-muted-foreground">
-                  But don't worry—there's plenty of great content waiting for you!
+                  But don't worry—there's plenty of great content waiting for
+                  you!
                 </p>
               </>
             )}

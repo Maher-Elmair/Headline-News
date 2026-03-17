@@ -33,8 +33,8 @@ export function ModernBreakingNews({
               >
                 <AlertCircle className="h-4 w-4 text-primary" />
               </motion.div>
-              <span className="font-semibold text-sm uppercase tracking-wide text-primary">
-                Breaking News
+              <span className="flex items-center justify-center gap-1.5 font-semibold text-sm uppercase tracking-wide text-primary">
+                Breaking <span className="hidden sm:block">News</span>
               </span>
             </div>
             <div className="w-px h-4 bg-border shrink-0" />
@@ -52,8 +52,8 @@ export function ModernBreakingNews({
               >
                 <AlertCircle className="h-4 w-4 text-primary" />
               </motion.div>
-              <span className="font-semibold text-sm uppercase tracking-wide text-primary">
-                Breaking News
+              <span className="flex items-center justify-center gap-1.5 font-semibold text-sm uppercase tracking-wide text-primary">
+                Breaking <span className="hidden sm:block">News</span>
               </span>
             </div>
             <div className="w-px h-4 bg-border shrink-0" />

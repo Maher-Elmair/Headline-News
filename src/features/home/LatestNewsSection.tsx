@@ -175,7 +175,7 @@ export function LatestNewsSection({
                         {/* Category Badge */}
                         <Badge
                           variant="secondary"
-                          className="text-xs font-bold uppercase tracking-wider shadow-md text-primary bg-primary/10 border-2 border-primary/30 hover:bg-primary hover:text-white transition-all"
+                          className="text-xs font-bold uppercase tracking-wider shadow-md text-primary bg-card group-hover:bg-primary group-hover:text-white transition-all"
                         >
                           {article.category}
                         </Badge>

@@ -7,18 +7,26 @@ import { Readability } from "@mozilla/readability";
 import DOMPurify from "dompurify";
 
 const CORS_PROXIES = [
+  "https://corsproxy.io/?",
+  "https://api.codetabs.com/v1/proxy?quest=",
   "https://api.allorigins.win/raw?url=",
-  "https://corsproxy.io/?url=",
 ];
 
 async function fetchViaProxy(url: string, base: string): Promise<string | null> {
-  const full = `${base}${encodeURIComponent(url)}`;
-  const res = await fetch(full, {
-    method: "GET",
-    signal: AbortSignal.timeout(15_000),
-  });
-  if (!res.ok) return null;
-  return res.text();
+  try {
+    const full = `${base}${encodeURIComponent(url)}`;
+    const res = await fetch(full, {
+      method: "GET",
+      signal: AbortSignal.timeout(15_000),
+    });
+    if (!res.ok) return null;
+    return await res.text();
+  } catch (error) {
+    // If request fails due to CORS, Network Error, or Timeout, we catch it here
+    // so the next proxy in the list can be tried.
+    console.warn(`[Proxy Failed] ${base}:`, error);
+    return null;
+  }
 }
 
 const JUNK_PATTERNS = [

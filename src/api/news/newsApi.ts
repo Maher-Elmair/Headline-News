@@ -5,27 +5,64 @@
 
 import axios from "axios";
 import type { NewsDataResponse, NewsDataArticle, Article } from "@/types";
+import { apiKeyManager } from "./apiKeyManager";
 
 const BASE_URL = "https://newsdata.io/api/1";
-const API_KEY = import.meta.env.VITE_NEWSDATA_API_KEY;
 
 export const newsApiClient = axios.create({
   baseURL: BASE_URL,
   params: {
-    apikey: API_KEY,
     language: "en",
   },
 });
 
-// Suppress 422 errors from console – they are handled gracefully in fetchArticleById.
+// Attach the current API key before every request
+newsApiClient.interceptors.request.use((config) => {
+  config.params = {
+    ...config.params,
+    apikey: apiKeyManager.getCurrentKey(),
+  };
+  return config;
+});
+
+// Suppress 422 errors and handle rate limits/fallback for API keys
 newsApiClient.interceptors.response.use(
   (response) => response,
-  (error: unknown) => {
-    const status = (error as { response?: { status?: number } })?.response?.status;
+  async (error: any) => {
+    const originalRequest = error.config;
+    const status = error.response?.status;
+    const data = error.response?.data;
+
+    // Detect rate limit / quota exceeded
+    // 429 Too Many Requests, 402 Payment Required, 403 Forbidden
+    const isRateLimit =
+      status === 429 ||
+      status === 402 ||
+      status === 403 ||
+      (data?.status === "error" && data?.results?.code === "RateLimitExceeded");
+
+    if (isRateLimit && apiKeyManager.getKeysCount() > 1) {
+      if (!originalRequest._retryCount) {
+        originalRequest._retryCount = 0;
+      }
+
+      if (originalRequest._retryCount < apiKeyManager.getKeysCount() - 1) {
+        apiKeyManager.rotateKey();
+        originalRequest._retryCount += 1;
+
+        // Wait a short delay before retrying
+        await new Promise((resolve) => setTimeout(resolve, 500));
+
+        // Retry the request; interceptor will inject the new key
+        return newsApiClient(originalRequest);
+      }
+    }
+
     if (status === 422) {
       // Return a resolved promise so axios doesn't log the network error to the console.
-      return Promise.resolve((error as { response: unknown }).response);
+      return Promise.resolve(error.response);
     }
+
     return Promise.reject(error);
   },
 );

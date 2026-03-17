@@ -173,7 +173,7 @@ export function EliteCategorySection({
                           <div className="space-y-2">
                             <Badge
                               variant="outline"
-                              className="text-[10px] uppercase font-bold tracking-wider w-fit text-primary bg-primary/5 border-primary hover:bg-primary hover:text-white transition-all"
+                              className="text-[10px] uppercase font-bold tracking-wider w-fit text-primary bg-primary/5 border-primary group-hover:bg-primary group-hover:text-white transition-all"
                             >
                               {article.category}
                             </Badge>

@@ -108,7 +108,7 @@ export function SmartSearch({ onClose }: SmartSearchProps) {
         variant="ghost"
         size="icon"
         onClick={() => setIsOpen(true)}
-        className="rounded-full hover:bg-accent/50 transition-all"
+        className="hidden sm:block rounded-full hover:bg-accent/50 transition-all"
         title="Search (Ctrl+K)"
       >
         <Search className="h-5 w-5" />

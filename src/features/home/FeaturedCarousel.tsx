@@ -127,7 +127,7 @@ export function FeaturedCarousel({
               </div>
 
               {/* Content Overlay */}
-              <div className="relative h-full flex flex-col justify-end ml-10 p-6 sm:p-8 md:p-10 lg:p-16 max-w-4xl">
+              <div className="relative h-full flex flex-col justify-center sm:justify-end ml-6 sm:ml-10 p-6 sm:p-8 md:p-10 lg:p-16 max-w-4xl">
                 {/* Category Badge */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
@@ -175,7 +175,7 @@ export function FeaturedCarousel({
                       {currentArticle.author.name}
                     </span>
                   </div>
-                  <div className="flex items-center gap-1.5 sm:gap-2 bg-white/10 backdrop-blur-sm px-2 sm:px-3 py-1 sm:py-1.5 rounded-full">
+                  <div className=" hidden sm:flex items-center gap-1.5 sm:gap-2 bg-white/10 backdrop-blur-sm px-2 sm:px-3 py-1 sm:py-1.5 rounded-full">
                     <Clock className="h-3 w-3 sm:h-4 sm:w-4 shrink-0" />
                     <span className="truncate">
                       {formatDateFull(currentArticle.publishedAt)}
@@ -196,8 +196,8 @@ export function FeaturedCarousel({
                       }}
                       className={`transition-all rounded-full backdrop-blur-md ${
                         index === currentIndex
-                          ? "w-8 sm:w-12 h-2.5 sm:h-3 bg-white shadow-xl shadow-white/30"
-                          : "w-2.5 sm:w-3 h-2.5 sm:h-3 bg-white/40 hover:bg-white/70"
+                          ? "w-8 sm:w-12 h-2 sm:h-3 bg-white shadow-xl shadow-white/30"
+                          : "w-2 sm:w-3 h-2 sm:h-3 bg-white/40 hover:bg-white/70"
                       }`}
                       aria-label={`Go to slide ${index + 1}`}
                     />
@@ -215,7 +215,7 @@ export function FeaturedCarousel({
               variant="ghost"
               size="icon"
               onClick={() => paginate(-1)}
-              className="absolute left-2 sm:left-4 md:left-6 lg:left-8 top-1/2 -translate-y-1/2 z-10 h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14 rounded-full bg-white/10 hover:bg-white/20 text-white backdrop-blur-xl border border-white/20 transition-all shadow-xl"
+              className="absolute left-1 sm:left-4 md:left-6 lg:left-8 top-1/2 -translate-y-1/2 z-10 h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14 rounded-full bg-white/10 hover:bg-white/20 text-white backdrop-blur-xl border border-white/20 transition-all shadow-xl"
               aria-label="Previous slide"
             >
               <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6" />
@@ -224,7 +224,7 @@ export function FeaturedCarousel({
               variant="ghost"
               size="icon"
               onClick={() => paginate(1)}
-              className="absolute right-2 sm:right-4 md:right-6 lg:right-8 top-1/2 -translate-y-1/2 z-10 h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14 rounded-full bg-white/10 hover:bg-white/20 text-white backdrop-blur-xl border border-white/20 transition-all shadow-xl"
+              className="absolute right-1 sm:right-4 md:right-6 lg:right-8 top-1/2 -translate-y-1/2 z-10 h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14 rounded-full bg-white/10 hover:bg-white/20 text-white backdrop-blur-xl border border-white/20 transition-all shadow-xl"
               aria-label="Next slide"
             >
               <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6" />

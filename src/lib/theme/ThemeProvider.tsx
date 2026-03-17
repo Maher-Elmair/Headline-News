@@ -28,6 +28,22 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     root.classList.remove("light", "dark");
     root.classList.add(theme);
     localStorage.setItem("news-theme", theme);
+
+    // Dynamically update the favicon based on the theme
+    let link = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
+    if (!link) {
+      link = document.createElement("link");
+      link.rel = "icon";
+      document.head.appendChild(link);
+    }
+
+    // Choose the correct logo based on the theme
+    const iconPath =
+      theme === "dark"
+        ? "/assets/icons/light-logo-removebg.png"
+        : "/assets/icons/dark-logo-removebg.png";
+
+    link.href = iconPath;
   }, [theme]);
 
   const setTheme = (newTheme: Theme) => {

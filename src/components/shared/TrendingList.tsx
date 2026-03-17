@@ -75,7 +75,7 @@ export function TrendingList({
                   {/* Category Badge */}
                   <Badge
                     variant="secondary"
-                    className="text-[10px] font-bold uppercase tracking-wider text-primary bg-primary/5 border border-primary/30 hover:bg-primary hover:text-white transition-all"
+                    className="text-[10px] font-bold uppercase tracking-wider text-primary bg-primary/5 border border-primary/30 group-hover:bg-primary group-hover:text-white transition-all"
                   >
                     {article.category}
                   </Badge>
